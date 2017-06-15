@@ -1,0 +1,163 @@
+syntax = "proto3";
+package routing;
+option go_package = "pb";
+
+service RoutingService {
+  rpc Create (CreateRequest) returns (CreateResponse);
+  rpc CreateLocation (CreateLocationRequest) returns (CreateLocationResponse);
+  rpc CreateServerName (CreateServerNameRequest) returns (CreateServerNameResponse);
+  rpc Edit (EditRequest) returns (EditResponse);
+  rpc EditListenStatement (EditListenStatementRequest) returns (EditListenStatementResponse);
+  rpc EditLocation (EditLocationRequest) returns (EditLocationResponse);
+  rpc EditReverseProxy (EditReverseProxyRequest) returns (EditReverseProxyResponse);
+  rpc Remove (RemoveRequest) returns (RemoveResponse);
+  rpc RemoveLocation (RemoveLocationRequest) returns (RemoveLocationResponse);
+  rpc RemoveServerName (RemoveServerNameRequest) returns (RemoveServerNameResponse);
+  rpc Get (GetRequest) returns (GetResponse);
+  rpc List (ListRequest) returns (ListResponse);
+}
+
+message ListenStatement {
+  string IPAddress = 1;
+  uint32 port = 2;
+  string keyword = 3;
+}
+
+message Log {
+  string path = 1;
+  string keyword = 2;
+}
+
+message SSLSettings {
+  repeated string protocols = 1;
+  repeated string ciphers = 2;
+  bool preferServerCiphers = 3;
+  string certificate = 4;
+  string certificateKey = 5;
+  string curve = 6;
+}
+
+message Location {
+  string location = 1;
+  map<string, string> rules = 2;
+}
+
+message RouterConfig {
+  uint32 refID = 1;
+  uint32 ID = 2;
+  string name = 3;
+  ListenStatement ListenStatement = 4;
+  repeated string serverName = 5;
+  Log accessLog = 6;
+  Log errorLog = 7;
+  string rootPath = 8;
+  SSLSettings SSLSettings = 9;
+  repeated Location locationRules = 10;
+  int32 reverseProxy = 11;
+}
+
+message CreateRequest {
+ RouterConfig config = 1;
+}
+
+message CreateResponse {
+  uint32 ID = 1;
+}
+
+message EditRequest {
+  uint32 refID = 1;
+  uint32 ID = 2;
+ RouterConfig config = 3;
+}
+
+message EditResponse {
+}
+
+message GetRequest {
+  uint32 refID = 1;
+  uint32 ID = 2;
+}
+
+message GetResponse {
+ RouterConfig config = 1;
+}
+
+message RemoveRequest {
+  uint32 refID = 1;
+  uint32 ID = 2;
+}
+
+message RemoveResponse {
+}
+
+message CreateLocationRequest {
+  uint32 refID = 1;
+  uint32 ID = 2;
+  Location location = 3;
+}
+
+message CreateLocationResponse {
+  uint32 ID = 1;
+}
+
+message EditLocationRequest {
+  uint32 refID = 1;
+  uint32 ID = 2;
+  Location location = 3;
+}
+
+message EditLocationResponse {
+}
+
+message RemoveLocationRequest {
+  uint32 refID = 1;
+  uint32 ID = 2;
+  int32 id = 3;
+}
+
+message RemoveLocationResponse {
+}
+
+message EditListenStatementRequest {
+  uint32 refID = 1;
+  uint32 ID = 2;
+  ListenStatement listenStatement = 3;
+}
+
+message EditListenStatementResponse {
+}
+
+message CreateServerNameRequest {
+  uint32 refID = 1;
+  uint32 ID = 2;
+  string serverName = 3;
+}
+
+message CreateServerNameResponse {
+  uint32 ID = 1;
+}
+
+message RemoveServerNameRequest {
+  uint32 refID = 1;
+  uint32 ID = 2;
+  int32 id = 3;
+}
+
+message RemoveServerNameResponse {
+}
+
+message EditReverseProxyRequest {
+  uint32 refID = 1;
+  uint32 ID = 2;
+  string ip = 3;
+}
+
+message EditReverseProxyResponse {
+}
+
+message ListRequest {
+}
+
+message ListResponse {
+  repeated RouterConfig configurations = 1;
+}
