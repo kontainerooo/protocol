@@ -1,0 +1,125 @@
+syntax = "proto3";
+package kmi;
+option go_package = "pb";
+
+service KMIService {
+  rpc Add (AddRequest) returns (AddResponse);
+  rpc Remove (RemoveRequest) returns (RemoveResponse);
+  rpc Get (GetRequest) returns (GetResponse);
+  rpc GetProvision (GetProvisionRequest) returns (GetProvisionResponse);
+  rpc GetCommands (GetCommandsRequest) returns (GetCommandsResponse);
+  rpc GetEnvironment (GetEnvironmentRequest) returns (GetEnvironmentResponse);
+  rpc GetFrontend (GetFrontendRequest) returns (GetFrontendResponse);
+  rpc GetInterfaces (GetInterfacesRequest) returns (GetInterfacesResponse);
+  rpc GetResources (GetResourcesRequest) returns (GetResourcesResponse);
+  rpc List (ListRequest) returns (ListResponse);
+}
+
+enum Type {
+  WEBSERVER = 0;
+}
+
+message KMDI {
+  uint32 ID = 1;
+  string name = 2;
+  string version = 3;
+  string description = 4;
+  Type type = 5;
+}
+
+message FrontendModule {
+  string template = 1;
+  map<string, string> parameters = 2;
+}
+
+message KMI {
+  KMDI KMDI = 1;
+  string provisionScript = 2;
+  string context = 3;
+  map<string, string> commands = 4;
+  map<string, string> environment = 5;
+  repeated FrontendModule frontend = 6;
+  repeated string imports = 7;
+  map<string, string> interfaces = 8;
+  map<string, string> resources = 9;
+}
+
+message AddRequest {
+  bytes kmi = 1;
+}
+
+message AddResponse {
+  uint32 ID = 1;
+}
+
+message RemoveKMIRequest {
+  uint32 ID = 1;
+}
+
+message RemoveResponse {
+}
+
+message GetRequest {
+  uint32 ID = 1;
+}
+
+message GetResponse {
+  KMI kmi = 1;
+}
+
+message GetProvisionRequest {
+  uint32 ID = 1;
+}
+
+message GetProvisionResponse {
+  string provisionScript = 1;
+  string context = 2;
+}
+
+message GetCommandsRequest {
+  uint32 ID = 1;
+}
+
+message GetCommandsResponse {
+  map<string, string> commands = 1;
+}
+
+message GetEnvironmentRequest {
+  uint32 ID = 1;
+}
+
+message GetEnvironmentResponse {
+  map<string, string> environment = 1;
+}
+
+message GetFrontendRequest {
+  uint32 ID = 1;
+}
+
+message GetFrontendResponse {
+  repeated FrontendModule frontend = 1;
+  repeated string imports = 2;
+}
+
+message GetInterfacesRequest {
+  uint32 ID = 1;
+}
+
+message GetInterfacesResponse {
+  map<string, string> interfaces = 1;
+}
+
+message GetResourcesRequest {
+  uint32 ID = 1;
+}
+
+message GetResourcesResponse {
+  map<string, string> resources = 1;
+}
+
+message ListRequest{
+}
+
+message ListResponse {
+  repeated KMDI kmdi = 1;
+}
