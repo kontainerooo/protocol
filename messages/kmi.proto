@@ -10,7 +10,7 @@ service KMIService {
   rpc GetCommand (GetCommandRequest) returns (GetCommandResponse);
   rpc GetEnvironment (GetEnvironmentRequest) returns (GetEnvironmentResponse);
   rpc GetFrontend (GetFrontendRequest) returns (GetFrontendResponse);
-  rpc GetInterfaces (GetInterfacesRequest) returns (GetInterfacesResponse);
+  rpc GetInterface (GetInterfaceRequest) returns (GetInterfaceResponse);
   rpc GetResources (GetResourcesRequest) returns (GetResourcesResponse);
   rpc List (ListRequest) returns (ListResponse);
 }
@@ -102,12 +102,13 @@ message GetFrontendResponse {
   repeated string imports = 2;
 }
 
-message GetInterfacesRequest {
+message GetInterfaceRequest {
   uint32 ID = 1;
+  string name = 2;
 }
 
-message GetInterfacesResponse {
-  map<string, string> interfaces = 1;
+message GetInterfaceResponse {
+  uint32 port = 1;
 }
 
 message GetResourcesRequest {
