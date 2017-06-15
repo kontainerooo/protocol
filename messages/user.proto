@@ -1,0 +1,103 @@
+syntax = "proto3";
+package user;
+option go_package = "pb";
+
+service UserService {
+  rpc Create (CreateRequest) returns (CreateResponse);
+  rpc Edit (EditRequest) returns (EditResponse);
+  rpc Remove (RemoveRequest) returns (RemoveResponse);
+  rpc Get (GetRequest) returns (GetResponse);
+  rpc ChangeUsername (ChangeUsernameRequest) returns (ChangeUsernameResponse);
+  rpc ResetPassword (ResetPasswordRequest) returns (ResetPasswordResponse);
+  rpc CheckLoginCredentials (CheckLoginCredentialsRequest) returns (CheckLoginCredentialsResponse);
+}
+
+message Address {
+  uint32 ID = 1;
+  string postcode = 2;
+  string city = 3;
+  string country = 4;
+  string street = 5;
+  int32 houseno = 6;
+  string additional = 15;
+}
+
+message Config {
+  string email = 1;
+  string password = 2;
+  Address Address = 3;
+  uint32 addressID = 4;
+  string phone = 5;
+  string image = 15;
+}
+
+message User {
+  uint32 ID = 1;
+  string username = 2;
+  string name = 3;
+  string surname = 4;
+  bool admin = 5;
+  Config config = 7;
+}
+
+message CreateRequest {
+  string username = 1;
+  Config config = 2;
+}
+
+message CreateResponse {
+  uint32 ID = 1;
+  string error = 2;
+}
+
+message EditRequest {
+  uint32 ID = 1;
+  Config config = 2;
+}
+
+message EditResponse {
+  string error = 1;
+}
+
+message ChangeUsernameRequest {
+  uint32 ID = 1;
+  string username = 2;
+}
+
+message ChangeUsernameResponse {
+  string error = 1;
+}
+
+message RemoveRequest {
+  uint32 ID = 1;
+}
+
+message RemoveResponse {
+  string error = 1;
+}
+
+message ResetPasswordRequest {
+  string email = 1;
+}
+
+message ResetPasswordResponse {
+  string error = 1;
+}
+
+message GetRequest {
+  uint32 ID = 1;
+}
+
+message GetResponse {
+  User user = 1;
+  string error = 2;
+}
+
+message CheckLoginCredentialsRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message CheckLoginCredentialsResponse {
+  uint32 ID = 1;
+}
